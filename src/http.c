@@ -748,7 +748,7 @@ int auth_log_in(struct tunnel *tunnel)
 	}
 
 	/* Probably one-time password required */
-	if (strncmp(res, "HTTP/1.1 401 Authorization Required\r\n", 37) == 0) {
+	while (strncmp(res, "HTTP/1.1 401 Authorization Required\r\n", 37) == 0) {
 		delay_otp(tunnel);
 
 		ret = try_otp_auth(tunnel, res, &res, &response_size);
