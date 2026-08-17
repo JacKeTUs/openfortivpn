@@ -495,9 +495,19 @@ static int try_otp_auth(struct tunnel *tunnel, const char *buffer,
 	path[e - s] = '\0';
 	/*
 	 * Try to get password prompt, assume it starts with 'Please'
+	 * FORM Prompt is between <b> and </b> tags
 	 * Fall back to default prompt if not found/parseable
 	 */
-	p = strstr(s, "Please");
+	char* default_otp_prompts[] = {"<b>", "Please"};
+	p = NULL;
+	for (int i = 0; i < 2; i++) {
+		p = strstr(s, default_otp_prompts[i]);
+		if (p != NULL) {
+			if (i == 0)
+				p += 3;
+			break;
+		}
+	}
 	if (tunnel->config->otp_prompt != NULL)
 		p = strstr(s, tunnel->config->otp_prompt);
 	if (p) {
