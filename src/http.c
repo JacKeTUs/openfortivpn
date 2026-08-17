@@ -470,7 +470,7 @@ static int try_otp_auth(struct tunnel *tunnel, const char *buffer,
 	char data[256];
 	char path[40];
 	char tmp[40];
-	char prompt[80];
+	char prompt[512];
 	const char *t = NULL, *n = NULL, *v = NULL, *e = NULL;
 	const char *s = buffer;
 	char *d = data;
